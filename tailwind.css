@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .frosted-glass {
+        border-radius: 0.5rem;
+        border-width: 1px;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        --tw-border-opacity: 0.3;
+        background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+        --tw-bg-opacity: 0.2;
+        --tw-backdrop-blur: blur(4px);
+        -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+        backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+        box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+      }
+  }
+  
+  
+@layer base {
+    @font-face {
+        font-family: 'MaokenZhuyuanTi';
+        src: url("../fonts/MaokenZhuyuanTi.ttf") format('opentype');
+        font-weight: 900;
+    }
+}
+
+
+    
