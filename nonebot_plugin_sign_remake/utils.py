@@ -4,7 +4,7 @@ from pathlib import Path
 
 from pydantic import AnyUrl as Url
 
-from .config import config, CustomSource, RES_DIR
+from .config import config, CustomSource, RES_DIR, ALBUM_BG_DIR, SIGN_BG_DIR
 
 
 def image_to_base64(image_path: Path) -> str:
@@ -81,6 +81,33 @@ async def get_background_image() -> str | Url:
             background_image = "https://www.loliapi.com/acg/pe/"
         case "Lolicon":
             background_image = await get_lolicon_image()
+        case "random":
+            background_image = CustomSource(uri=SIGN_BG_DIR).to_uri()
+        case CustomSource() as cs:
+            background_image = cs.to_uri()
+        case _:
+            background_image = image_to_base64(default_background)
+
+    return background_image
+
+
+async def get_album_background() -> str | Url:
+    default_background = ALBUM_BG_DIR / "card.png"
+    kraft_background = ALBUM_BG_DIR / "kraft_page.png"
+    pcr_background = ALBUM_BG_DIR / "pcr_frame.png"
+    prev_background = ALBUM_BG_DIR / "frame.png"
+
+    match config.album_background_source:
+        case "default":
+            background_image = image_to_base64(default_background)
+        case "kraft":
+            background_image = image_to_base64(kraft_background)
+        case "pcr":
+            background_image = image_to_base64(pcr_background)
+        case "prev":
+            background_image = image_to_base64(prev_background)
+        case "random":
+            background_image = CustomSource(uri=ALBUM_BG_DIR).to_uri()
         case CustomSource() as cs:
             background_image = cs.to_uri()
         case _:

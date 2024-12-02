@@ -4,13 +4,14 @@ from pathlib import Path
 from typing import Literal
 from nonebot import logger
 from nonebot.plugin import get_plugin_config
-from pydantic import BaseModel
+from pydantic import BaseModel, FileUrl
 from pydantic import AnyUrl as Url
 import nonebot_plugin_localstore as localstore
 
 RES_DIR: Path = Path(__file__).parent / "resources"
 TEMPLATES_DIR: Path = RES_DIR / "templates"
-
+ALBUM_BG_DIR: Path = RES_DIR / "images" / "album_background"
+SIGN_BG_DIR: Path = RES_DIR / "images" / "sign_background"
 
 class CustomSource(BaseModel):
     uri: Url | Path
@@ -27,7 +28,7 @@ class CustomSource(BaseModel):
                 logger.debug(
                     f"CustomSource: {uri} is a directory, random pick a file: {files}"
                 )
-                return Url((uri / random.choice(files)).as_uri())
+                return FileUrl((uri / random.choice(files)).as_uri())
 
             if not uri.exists():
                 raise FileNotFoundError(f"CustomSource: {uri} not exists")
@@ -43,8 +44,16 @@ class Config(BaseModel):
     sign_background_source: Literal[
                                 "default",
                                 "LoliAPI",
-                                "Lolicon"] | CustomSource = "default"
+                                "Lolicon",
+                                "random"] | CustomSource = "default"
     """ 背景图片来源 """
+    album_background_source: Literal[
+                                "default",
+                                "kraft",
+                                "pcr",
+                                "prev",
+                                "random"] | CustomSource = "default"
+    """ 收集册背景图片来源 """
 
 
 config = get_plugin_config(Config)

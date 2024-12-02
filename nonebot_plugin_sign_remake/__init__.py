@@ -16,6 +16,7 @@ from nonebot_plugin_argot import add_argot
 from nonebot_plugin_alconna import (
     Args,
     Alconna,
+    Match,
     UniMessage,
     CommandMeta,
     on_alconna,
@@ -23,7 +24,7 @@ from nonebot_plugin_alconna import (
 
 from .models import User, Album, Sign
 from .utils import todo_list, img_list, image_cache, get_background_image, get_hitokoto
-from .render import render_sign
+from .render import render_sign, render_album
 
 __plugin_meta__ = PluginMetadata(
     name="签到 重制版",
@@ -70,7 +71,7 @@ stamp_album = on_alconna(
     ),
     block=True,
     use_cmd_start=True,
-    aliases=("排行榜", "图鉴"),
+    aliases=("收集册", "排行榜", "图鉴"),
 )
 
 
@@ -104,7 +105,9 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 rank=rank,
                 todo=todo,
             )
-            if not await session.get(Album, (group_id, stamp_id, user_id)):
+            if record := await session.get(Album, (group_id, user_id, stamp_id)):
+                record.collected = True
+            else:
                 session.add(
                     Album(
                         gid=group_id,
@@ -112,7 +115,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                         uid=user_id, collected=True
                     )
                 )
-                await session.commit()
+            await session.commit()
             image = await render_sign(result)
             msg = await UniMessage.image(raw=image).send(
                 at_sender=True,
@@ -172,6 +175,25 @@ async def _(user_session: Uninfo, session: async_scoped_session):
         await sign.finish()
 
 
+@stamp_album.handle()
+async def _(
+    user_session: Uninfo,
+    session: async_scoped_session,
+    target: Match[At | int],
+):
+    if target.available:
+        if isinstance(target.result, At):
+            user_id = target.result.target
+        else:
+            user_id = target.result
+    else:
+        user_id = user_session.user.id
+    group_id = user_session.scene.id
+    collected_stamps = await get_collected_stamps(group_id, str(user_id), session)
+    image = await render_album(collected_stamps)
+    await UniMessage.image(raw=image).send(reply_to=True)
+
+
 async def get_group_rank(
         user_id: str,
         group_id: str,
@@ -188,3 +210,18 @@ async def get_group_rank(
     users = rank_orign.all()
     rank = next((i + 1 for i, u in enumerate(users) if str(u[0]) == user_id), None)
     return rank or 0
+
+
+async def get_collected_stamps(
+    group_id: str,
+    user_id: str,
+    session: async_scoped_session
+) -> list[int]:
+    stamps = await session.execute(select(Album.stamp_id)
+                                   .where(
+                                        Album.gid == group_id,
+                                        Album.uid == user_id,
+                                        Album.collected == 1
+                                    )
+                                   )
+    return list(stamps.scalars().all())
