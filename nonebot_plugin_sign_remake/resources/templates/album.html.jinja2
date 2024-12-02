@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Sign Album</title>
+  <style>
+    {% include "index.css" %}
+  </style>
+</head>
+
+<body class="bg-[length:100%_100%] bg-no-repeat px-10 py-20" style="background-image: url({{background_image}})";>
+  <div class="flex flex-wrap justify-center">
+    {% for stamp in stamp_list %}
+        {% if stamp.stem|int in collected_list %}
+          <div class="w-28 h-28 m-2 overflow-hidden">
+            <img src="{{ image_cache[stamp.stem] }}" alt="{{ stamp.stem }}" class="w-full h-full object-cover mix-blend-multiply">
+          </div>
+        {% else %}
+          <div class="w-28 h-28 m-2 overflow-hidden">
+            <img src="{{ image_cache[stamp.stem] }}" alt="{{ stamp.stem }}" class="w-full h-full mix-blend-multiply filter grayscale opacity-85">
+          </div>
+        {% endif %}
+    {% endfor %}
+  </div>
+</body>
