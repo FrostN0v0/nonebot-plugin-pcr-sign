@@ -1,10 +1,10 @@
 import base64
-import httpx
 from pathlib import Path
 
+import httpx
 from pydantic import AnyUrl as Url
 
-from .config import config, CustomSource, RES_DIR, ALBUM_BG_DIR, SIGN_BG_DIR
+from .config import RES_DIR, SIGN_BG_DIR, ALBUM_BG_DIR, CustomSource, config
 
 
 def image_to_base64(image_path: Path) -> str:
