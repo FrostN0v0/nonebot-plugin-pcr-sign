@@ -13,6 +13,7 @@ TEMPLATES_DIR: Path = RES_DIR / "templates"
 ALBUM_BG_DIR: Path = RES_DIR / "images" / "album_background"
 SIGN_BG_DIR: Path = RES_DIR / "images" / "sign_background"
 
+
 class CustomSource(BaseModel):
     uri: Url | Path
 
@@ -41,18 +42,13 @@ class CustomSource(BaseModel):
 class Config(BaseModel):
     stamp_path: Path = RES_DIR / "stamps"
     """ 印章图片路径 """
-    sign_background_source: Literal[
-                                "default",
-                                "LoliAPI",
-                                "Lolicon",
-                                "random"] | CustomSource = "default"
+    sign_background_source: (
+        Literal["default", "LoliAPI", "Lolicon", "random"] | CustomSource
+    ) = "default"
     """ 背景图片来源 """
-    album_background_source: Literal[
-                                "default",
-                                "kraft",
-                                "pcr",
-                                "prev",
-                                "random"] | CustomSource = "default"
+    album_background_source: (
+        Literal["default", "kraft", "pcr", "prev", "random"] | CustomSource
+    ) = "default"
     """ 收集册背景图片来源 """
 
 

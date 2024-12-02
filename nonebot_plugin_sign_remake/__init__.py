@@ -31,9 +31,7 @@ __plugin_meta__ = PluginMetadata(
     description=(
         "对“从 hoshino 搬来的 pcr 签到”插件 nonebot-plugin-sign 的搬运重制（我搬两遍"
     ),
-    usage=(
-        "\n"
-    ),
+    usage=("\n"),
     type="application",
     homepage="https://github.com/FrostN0v0/nonebot-plugin-sign-remake",
     supported_adapters=inherit_supported_adapters(
@@ -88,9 +86,9 @@ async def _(user_session: Uninfo, session: async_scoped_session):
     background_image = await get_background_image()
     if user := await session.get(User, (group_id, user_id)):
         if user.last_sign == date.today():
-            await UniMessage(
-                f"{user_name}，今天已经签到过啦，明天再来叭~"
-            ).finish(reply_to=True)
+            await UniMessage(f"{user_name}，今天已经签到过啦，明天再来叭~").finish(
+                reply_to=True
+            )
         else:
             rank = await get_group_rank(user_id, group_id, session)
             user.last_sign = date.today()
@@ -109,11 +107,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 record.collected = True
             else:
                 session.add(
-                    Album(
-                        gid=group_id,
-                        stamp_id=stamp_id,
-                        uid=user_id, collected=True
-                    )
+                    Album(gid=group_id, stamp_id=stamp_id, uid=user_id, collected=True)
                 )
             await session.commit()
             image = await render_sign(result)
@@ -136,12 +130,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             await sign.finish()
     else:
         session.add(
-            User(
-                gid=group_id,
-                uid=user_id,
-                affection=affection,
-                last_sign=date.today()
-            )
+            User(gid=group_id, uid=user_id, affection=affection, last_sign=date.today())
         )
         result = Sign(
             user_name=user_name,
@@ -195,33 +184,25 @@ async def _(
 
 
 async def get_group_rank(
-        user_id: str,
-        group_id: str,
-        session: async_scoped_session
+    user_id: str, group_id: str, session: async_scoped_session
 ) -> int:
-    rank_orign = await session.execute(select(Album.uid, func.count())
-                                       .where(
-                                            Album.gid == group_id,
-                                            Album.collected == 1
-                                        )
-                                       .group_by(Album.uid)
-                                       .order_by(func.count().desc())
-                                       )
+    rank_orign = await session.execute(
+        select(Album.uid, func.count())
+        .where(Album.gid == group_id, Album.collected == 1)
+        .group_by(Album.uid)
+        .order_by(func.count().desc())
+    )
     users = rank_orign.all()
     rank = next((i + 1 for i, u in enumerate(users) if str(u[0]) == user_id), None)
     return rank or 0
 
 
 async def get_collected_stamps(
-    group_id: str,
-    user_id: str,
-    session: async_scoped_session
+    group_id: str, user_id: str, session: async_scoped_session
 ) -> list[int]:
-    stamps = await session.execute(select(Album.stamp_id)
-                                   .where(
-                                        Album.gid == group_id,
-                                        Album.uid == user_id,
-                                        Album.collected == 1
-                                    )
-                                   )
+    stamps = await session.execute(
+        select(Album.stamp_id).where(
+            Album.gid == group_id, Album.uid == user_id, Album.collected == 1
+        )
+    )
     return list(stamps.scalars().all())
