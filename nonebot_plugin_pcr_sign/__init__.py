@@ -33,7 +33,9 @@ __plugin_meta__ = PluginMetadata(
     description=(
         "对“从 hoshino 搬来的 pcr 签到”插件 nonebot-plugin-sign 的搬运重制（我搬两遍"
     ),
-    usage=("\n"),
+    usage=(
+        "发送 sign/签到/盖章/妈 进行签到\n" "发送 收集册/排行榜/图鉴 显示自己的收集册"
+    ),
     type="application",
     homepage="https://github.com/FrostN0v0/nonebot-plugin-pcr-sign",
     supported_adapters=inherit_supported_adapters(
