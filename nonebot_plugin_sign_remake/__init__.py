@@ -2,7 +2,6 @@ import random
 from datetime import date
 
 from nonebot import require
-from sqlalchemy import func, select
 from nonebot.plugin import PluginMetadata, inherit_supported_adapters
 
 require("nonebot_plugin_uninfo")
@@ -25,6 +24,7 @@ from nonebot_plugin_alconna import (
 
 from .models import Sign, User, Album
 from .render import render_sign, render_album
+from .db_handler import get_group_rank, get_collected_stamps
 from .utils import img_list, todo_list, image_cache, get_hitokoto, get_background_image
 
 __plugin_meta__ = PluginMetadata(
@@ -182,28 +182,3 @@ async def _(
     collected_stamps = await get_collected_stamps(group_id, str(user_id), session)
     image = await render_album(collected_stamps)
     await UniMessage.image(raw=image).send(reply_to=True)
-
-
-async def get_group_rank(
-    user_id: str, group_id: str, session: async_scoped_session
-) -> int:
-    rank_orign = await session.execute(
-        select(Album.uid, func.count())
-        .where(Album.gid == group_id, Album.collected == 1)
-        .group_by(Album.uid)
-        .order_by(func.count().desc())
-    )
-    users = rank_orign.all()
-    rank = next((i + 1 for i, u in enumerate(users) if str(u[0]) == user_id), None)
-    return rank or 0
-
-
-async def get_collected_stamps(
-    group_id: str, user_id: str, session: async_scoped_session
-) -> list[int]:
-    stamps = await session.execute(
-        select(Album.stamp_id).where(
-            Album.gid == group_id, Album.uid == user_id, Album.collected == 1
-        )
-    )
-    return list(stamps.scalars().all())
