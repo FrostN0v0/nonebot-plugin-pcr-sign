@@ -34,7 +34,7 @@ __plugin_meta__ = PluginMetadata(
     ),
     usage=("\n"),
     type="application",
-    homepage="https://github.com/FrostN0v0/nonebot-plugin-sign-remake",
+    homepage="https://github.com/FrostN0v0/nonebot-plugin-pcr-sign",
     supported_adapters=inherit_supported_adapters(
         "nonebot_plugin_alconna", "nonebot_plugin_uninfo"
     ),

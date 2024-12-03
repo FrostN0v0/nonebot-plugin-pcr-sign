@@ -15,7 +15,7 @@ from alembic import op
 
 revision: str = "94353282a8c6"
 down_revision: str | Sequence[str] | None = None
-branch_labels: str | Sequence[str] | None = ("nonebot_plugin_sign_remake",)
+branch_labels: str | Sequence[str] | None = ("nonebot_plugin_pcr_sign",)
 depends_on: str | Sequence[str] | None = None
 
 
@@ -30,7 +30,7 @@ def upgrade(name: str = "") -> None:
         sa.Column("stamp_id", sa.Integer(), nullable=False),
         sa.Column("collected", sa.Boolean(), nullable=False),
         sa.PrimaryKeyConstraint("gid", "uid", "stamp_id", name=op.f("pk_sign_albums")),
-        info={"bind_key": "nonebot_plugin_sign_remake"},
+        info={"bind_key": "nonebot_plugin_pcr_sign"},
     )
     op.create_table(
         "sign_users",
@@ -39,7 +39,7 @@ def upgrade(name: str = "") -> None:
         sa.Column("affection", sa.Integer(), nullable=False),
         sa.Column("last_sign", sa.Date(), nullable=False),
         sa.PrimaryKeyConstraint("gid", "uid", name=op.f("pk_sign_users")),
-        info={"bind_key": "nonebot_plugin_sign_remake"},
+        info={"bind_key": "nonebot_plugin_pcr_sign"},
     )
     # ### end Alembic commands ###
 

@@ -1,5 +1,5 @@
 [project]
-name = "nonebot-plugin-sign-remake"
+name = "nonebot-plugin-pcr-sign"
 version = "0.1.0"
 description = "nonebot_plugin_hoshino_sign 的重置版"
 readme = "README.md"
@@ -22,7 +22,7 @@ adapters = [
 ]
 
 [tool.nonebot]
-plugins = ["nonebot_plugin_sign_remake"]
+plugins = ["nonebot_plugin_pcr_sign"]
 adapters = [
     { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" }
 ]
