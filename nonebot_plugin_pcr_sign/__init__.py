@@ -22,6 +22,7 @@ from nonebot_plugin_alconna import (
     on_alconna,
 )
 
+from .config import config
 from .models import Sign, User, Album
 from .render import render_sign, render_album
 from .db_handler import get_group_rank, get_collected_stamps
@@ -124,7 +125,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                     "name": "background",
                     "command": "background",
                     "content": str(background_image),
-                    "expire": 300,
+                    "expire": config.sign_argot_expire_time,
                 },
             )
             await add_argot(
@@ -132,14 +133,14 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 message_id=msg.msg_ids[0]["message_id"],
                 content=str(stamp_img),
                 command="stamp",
-                expire_time=300,
+                expire_time=config.sign_argot_expire_time,
             )
             await add_argot(
                 name="raw",
                 message_id=msg.msg_ids[0]["message_id"],
                 content=raw_msg,
                 command="raw",
-                expire_time=300,
+                expire_time=config.sign_argot_expire_time,
             )
             await sign.finish()
     else:
@@ -170,7 +171,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 "name": "background",
                 "command": "background",
                 "content": str(background_image),
-                "expire": 300,
+                "expire": config.sign_argot_expire_time,
             },
         )
         await add_argot(
@@ -178,14 +179,14 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             message_id=msg.msg_ids[0]["message_id"],
             content=str(stamp_img),
             command="stamp",
-            expire_time=300,
+            expire_time=config.sign_argot_expire_time,
         )
         await add_argot(
             name="raw",
             message_id=msg.msg_ids[0]["message_id"],
             content=raw_msg,
             command="raw",
-            expire_time=300,
+            expire_time=config.sign_argot_expire_time,
         )
         await sign.finish()
 

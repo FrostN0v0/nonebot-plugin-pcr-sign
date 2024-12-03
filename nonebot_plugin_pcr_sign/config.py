@@ -40,6 +40,8 @@ class CustomSource(BaseModel):
 
 
 class Config(BaseModel):
+    sign_argot_expire_time: int = 300
+    """ 暗语过期时间（单位：秒） """
     stamp_path: Path = RES_DIR / "stamps"
     """ 印章图片路径 """
     sign_background_source: (
