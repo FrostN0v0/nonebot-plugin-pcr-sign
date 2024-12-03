@@ -29,7 +29,7 @@ from .db_handler import get_group_rank, get_collected_stamps
 from .utils import img_list, todo_list, image_cache, get_hitokoto, get_background_image
 
 __plugin_meta__ = PluginMetadata(
-    name="签到 重制版",
+    name="PCR签到重制版",
     description=(
         "对“从 hoshino 搬来的 pcr 签到”插件 nonebot-plugin-sign 的搬运重制（我搬两遍"
     ),
