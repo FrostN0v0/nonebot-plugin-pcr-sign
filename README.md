@@ -29,10 +29,8 @@ _✨ pcr签到 集印章/邮戳 ✨_
 ## 📖 介绍
 
 一个从
-<code>一个从 hoshino <del>抄</del>借鉴的 nonebot2 签到插件
-    <a href="https://github.com/zhulinyv/nonebot_plugin_hoshino_sign">nonebot-plugin-hoshino-sign</a>
-</code>
-**~~抄~~借鉴**的 nonebot2 签到插件
+<code>一个从 hoshino <del>抄</del>借鉴的 nonebot2 签到插件<a href="https://github.com/zhulinyv/nonebot_plugin_hoshino_sign">nonebot-plugin-hoshino-sign</a>
+</code>**~~抄~~借鉴**的 nonebot2 签到插件
 
 ## 💿 安装
 

@@ -15,6 +15,9 @@ dependencies = [
     "nonebot2>=2.4.0",
 ]
 
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [project.optional-dependencies]
 adapters = [
