@@ -85,6 +85,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
     stamp_id = random.choice(img_list).stem
     stamp_img = image_cache[stamp_id]
     background_image = await get_background_image()
+    hitokoto = await get_hitokoto()
     if user := await session.get(User, (group_id, user_id)):
         if user.last_sign == date.today():
             await UniMessage(f"{user_name}，今天已经签到过啦，明天再来叭~").finish(
@@ -94,13 +95,18 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             rank = await get_group_rank(user_id, group_id, session)
             user.last_sign = date.today()
             user.affection += affection
+            raw_msg = (
+                f"欢迎回来，主人~！\n"
+                f"好感+{affection}！当前好感：{user.affection}\n"
+                f"主人今天要{todo}吗？\n\n今日一言：{hitokoto}"
+            )
             result = Sign(
                 user_name=user_name,
                 affection=affection,
                 affection_total=user.affection,
                 stamp=stamp_img,
                 background_image=str(background_image),
-                hitokoto=await get_hitokoto(),
+                hitokoto=hitokoto,
                 rank=rank,
                 todo=todo,
             )
@@ -128,10 +134,22 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 command="stamp",
                 expire_time=300,
             )
+            await add_argot(
+                name="raw",
+                message_id=msg.msg_ids[0]["message_id"],
+                content=raw_msg,
+                command="raw",
+                expire_time=300,
+            )
             await sign.finish()
     else:
         session.add(
             User(gid=group_id, uid=user_id, affection=affection, last_sign=date.today())
+        )
+        raw_msg = (
+            f"欢迎回来，主人~！\n"
+            f"好感+{affection}！当前好感：{affection}\n"
+            f"主人今天要{todo}吗？\n\n今日一言：{hitokoto}"
         )
         result = Sign(
             user_name=user_name,
@@ -139,7 +157,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             affection_total=affection,
             stamp=stamp_img,
             background_image=str(background_image),
-            hitokoto=await get_hitokoto(),
+            hitokoto=hitokoto,
             rank=await get_group_rank(user_id, group_id, session),
             todo=todo,
         )
@@ -160,6 +178,13 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             message_id=msg.msg_ids[0]["message_id"],
             content=str(stamp_img),
             command="stamp",
+            expire_time=300,
+        )
+        await add_argot(
+            name="raw",
+            message_id=msg.msg_ids[0]["message_id"],
+            content=raw_msg,
+            command="raw",
             expire_time=300,
         )
         await sign.finish()
