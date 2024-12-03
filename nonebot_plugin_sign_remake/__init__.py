@@ -204,6 +204,10 @@ async def _(
     else:
         user_id = user_session.user.id
     group_id = user_session.scene.id
+    group_rank = await get_group_rank(str(user_id), group_id, session)
     collected_stamps = await get_collected_stamps(group_id, str(user_id), session)
     image = await render_album(collected_stamps)
-    await UniMessage.image(raw=image).send(reply_to=True)
+    msg = UniMessage.image(raw=image)
+    msg += UniMessage.text(f"图鉴完成度：{len(collected_stamps)}/{len(img_list)}\n")
+    msg += UniMessage.text(f"当前群排名：{group_rank}")
+    await msg.send(reply_to=True)
