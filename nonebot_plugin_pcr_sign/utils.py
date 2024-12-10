@@ -59,6 +59,12 @@ async def get_lolicon_image() -> str:
         response = await client.get("https://api.lolicon.app/setu/v2")
     return response.json()["data"][0]["urls"]["original"]
 
+async def get_loliapi_image() -> str:
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            "https://api.loliapi.com/acg/pe/?type=url")
+    return response.text
+
 
 async def get_hitokoto() -> str:
     async with httpx.AsyncClient() as client:
@@ -78,7 +84,7 @@ async def get_background_image() -> str | Url:
         case "default":
             background_image = image_to_base64(default_background)
         case "LoliAPI":
-            background_image = "https://www.loliapi.com/acg/pe/"
+            background_image = await get_loliapi_image()
         case "Lolicon":
             background_image = await get_lolicon_image()
         case "random":
