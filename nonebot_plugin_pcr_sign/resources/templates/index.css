@@ -587,6 +587,14 @@ video {
   top: -7rem;
 }
 
+.right-10 {
+  right: 2.5rem;
+}
+
+.top-\[30px\] {
+  top: 30px;
+}
+
 .m-2 {
   margin: 0.5rem;
 }

@@ -18,6 +18,7 @@ async def render_sign(data: Sign) -> bytes:
             "affection": data["affection"],
             "affection_total": data["affection_total"],
             "rank": data["rank"],
+            "is_new": data["is_new"],
         },
         pages={
             "viewport": {"width": 360, "height": 10},

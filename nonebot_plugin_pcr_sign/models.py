@@ -40,3 +40,4 @@ class Sign(TypedDict):
     rank: int
     todo: str
     hitokoto: str
+    is_new: bool

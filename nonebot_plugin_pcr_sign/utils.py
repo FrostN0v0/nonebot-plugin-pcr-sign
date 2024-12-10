@@ -59,10 +59,10 @@ async def get_lolicon_image() -> str:
         response = await client.get("https://api.lolicon.app/setu/v2")
     return response.json()["data"][0]["urls"]["original"]
 
+
 async def get_loliapi_image() -> str:
     async with httpx.AsyncClient() as client:
-        response = await client.get(
-            "https://api.loliapi.com/acg/pe/?type=url")
+        response = await client.get("https://api.loliapi.com/acg/pe/?type=url")
     return response.text
 
 

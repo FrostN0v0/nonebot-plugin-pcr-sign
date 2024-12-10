@@ -89,6 +89,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
     stamp_img = image_cache[stamp_id]
     background_image = await get_background_image()
     hitokoto = await get_hitokoto()
+    is_new: bool = False
     if user := await session.get(User, (group_id, user_id)):
         if user.last_sign == date.today():
             await UniMessage(f"{user_name}，今天已经签到过啦，明天再来叭~").finish(
@@ -103,6 +104,14 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 f"好感+{affection}！当前好感：{user.affection}\n"
                 f"主人今天要{todo}吗？\n\n今日一言：{hitokoto}"
             )
+            if record := await session.get(Album, (group_id, user_id, stamp_id)):
+                is_new = False
+                record.collected = True
+            else:
+                is_new = True
+                session.add(
+                    Album(gid=group_id, stamp_id=stamp_id, uid=user_id, collected=True)
+                )
             result = Sign(
                 user_name=user_name,
                 affection=affection,
@@ -112,13 +121,8 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 hitokoto=hitokoto,
                 rank=rank,
                 todo=todo,
+                is_new=is_new,
             )
-            if record := await session.get(Album, (group_id, user_id, stamp_id)):
-                record.collected = True
-            else:
-                session.add(
-                    Album(gid=group_id, stamp_id=stamp_id, uid=user_id, collected=True)
-                )
             await session.commit()
             image = await render_sign(result)
             msg = await UniMessage.image(raw=image).send(
@@ -163,6 +167,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             hitokoto=hitokoto,
             rank=await get_group_rank(user_id, group_id, session),
             todo=todo,
+            is_new=True,
         )
         session.add(Album(gid=group_id, stamp_id=stamp_id, uid=user_id, collected=True))
         image = await render_sign(result)

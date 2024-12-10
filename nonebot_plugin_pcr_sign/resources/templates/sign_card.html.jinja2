@@ -31,6 +31,11 @@
             <div class="w-[163px] h-[163px] bg-white/55 rounded-full flex items-center justify-center">
               <div class="w-[150px] h-[150px] bg-white rounded-full flex items-center justify-center overflow-hidden">
                 <img src="{{ stamp }}" alt="Stamp" class="w-full h-full scale-90">
+                {% if is_new %}
+                  <div class="absolute top-[30px] right-10">
+                    <img src="../images/new.png" alt="New" class="w-full h-full"></img>
+                  </div>
+                {% endif %}
               </div>
             </div>
           </div>
