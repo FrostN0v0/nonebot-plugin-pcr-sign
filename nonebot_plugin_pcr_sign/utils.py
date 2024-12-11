@@ -1,4 +1,5 @@
 import base64
+from typing import Any
 from pathlib import Path
 
 import httpx
@@ -52,6 +53,15 @@ todo_list = [
     "搓一把日麻",
     "和珂朵莉一起享用黄油蛋糕",
 ]
+
+
+async def get_message_id(msg_ids: list[Any]):
+    if isinstance(msg_ids[0], dict):
+        return msg_ids[0].get("message_id")
+    elif hasattr(msg_ids[0], "message_id"):
+        return msg_ids[0].message_id
+    else:
+        return ""
 
 
 async def get_lolicon_image() -> str:
