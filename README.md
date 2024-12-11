@@ -23,6 +23,14 @@ _✨ pcr签到 集印章/邮戳 ✨_
 <a href="https://registry.nonebot.dev/plugin/nonebot-plugin-pcr-sign:nonebot_plugin_pcr_sign">
   <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fnbbdg.lgc2333.top%2Fplugin%2Fnonebot-plugin-pcr-sign" alt="NoneBot Registry" />
 </a>
+<a href="https://github.com/astral-sh/uv">
+    <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json" alt="uv">
+</a>
+<a href="https://github.com/astral-sh/ruff">
+<img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v2.json" alt="ruff">
+</a>
+<a href="https://www.codefactor.io/repository/github/frostn0v0/nonebot-plugin-pcr-sign"><img src="https://www.codefactor.io/repository/github/frostn0v0/nonebot-plugin-pcr-sign/badge" alt="CodeFactor" />
+</a>
 
 </div>
 
