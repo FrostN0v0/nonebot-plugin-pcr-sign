@@ -41,4 +41,5 @@ async def render_album(collected_stamps: list[int]) -> bytes:
             "viewport": {"width": 1440, "height": 10},
             "base_url": f"file://{TEMPLATES_DIR}",
         },
+        device_scale_factor=1,
     )
