@@ -22,16 +22,18 @@ build-backend = "pdm.backend"
 [project.optional-dependencies]
 adapters = [
     "nonebot-adapter-onebot>=2.4.6",
+    "nonebot-adapter-telegram>=0.1.0b20",
 ]
 test = [
-    "nonebot2[fastapi]>=2.4.0",
-    "nonebot-plugin-orm[default]>=0.7.6"
+    "nonebot2[fastapi,httpx]>=2.4.0",
+    "nonebot-plugin-orm[default]>=0.7.6",
 ]
 
 [tool.nonebot]
 plugins = ["nonebot_plugin_pcr_sign"]
 adapters = [
-    { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" }
+    { name = "OneBot V11", module_name = "nonebot.adapters.onebot.v11" },
+    { name = "Telegram", module_name = "nonebot.adapters.telegram" }
 ]
 
 [tool.black]
