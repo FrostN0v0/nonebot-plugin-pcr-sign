@@ -724,7 +724,7 @@ default = [
 
 [[package]]
 name = "nonebot-plugin-pcr-sign"
-version = "0.1.6"
+version = "0.1.7"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
@@ -758,7 +758,7 @@ requires-dist = [
     { name = "nonebot-plugin-localstore", specifier = ">=0.7.2" },
     { name = "nonebot-plugin-orm", specifier = ">=0.7.6" },
     { name = "nonebot-plugin-orm", extras = ["default"], marker = "extra == 'test'", specifier = ">=0.7.6" },
-    { name = "nonebot-plugin-uninfo", specifier = ">=0.5.0" },
+    { name = "nonebot-plugin-uninfo", specifier = ">=0.4.1" },
     { name = "nonebot2", specifier = ">=2.4.0" },
     { name = "nonebot2", extras = ["fastapi", "httpx"], marker = "extra == 'test'", specifier = ">=2.4.0" },
 ]
