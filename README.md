@@ -180,3 +180,8 @@ sign_background_source = '{"uri": "/imgs/image.jpg"}'
 - [`nonebot-plugin-argot`](https://github.com/KomoriDev/nonebot-plugin-argot): 优秀的 NoneBot2 暗语支持
 - [`nonebot-plugin-htmlrender`](https://github.com/kexue-z/nonebot-plugin-htmlrender): 优秀的 NoneBot2 HTML 渲染支持
 - [`nonebot-plugin-orm`](https://github.com/nonebot/plugin-orm): 优秀的 NoneBot2 数据库支持
+
+## 📋 TODO
+
+- [ ] 数据迁移脚本(从原hoshino_sign插件迁移数据)
+- [ ] 待补充,欢迎pr
