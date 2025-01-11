@@ -18,8 +18,7 @@ def image_to_base64(image_path: Path) -> str:
 image_cache = {}
 img_list = list(config.stamp_path.iterdir())
 for image in img_list:
-    img = image_to_base64(image)
-    image_cache[image.stem] = img
+    image_cache[image.stem] = image.as_uri()
 
 todo_list = [
     "找伊绪老师上课",
