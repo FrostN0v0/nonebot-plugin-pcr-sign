@@ -27,9 +27,9 @@ from .models import Sign, User, Album
 from .render import render_sign, render_album
 from .db_handler import get_group_rank, get_collected_stamps
 from .utils import (
+    image_to_base64,
     img_list,
     todo_list,
-    image_cache,
     get_hitokoto,
     get_message_id,
     get_background_image,
@@ -93,7 +93,7 @@ async def _(user_session: Uninfo, session: async_scoped_session):
     todo = random.choice(todo_list)
     affection = random.randint(1, 10)
     stamp_id = random.choice(img_list).stem
-    stamp_img = image_cache[stamp_id]
+    stamp_img = image_to_base64(img_list[int(stamp_id)])
     background_image = await get_background_image()
     hitokoto = await get_hitokoto()
     is_new: bool = False
