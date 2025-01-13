@@ -27,11 +27,11 @@ from .models import Sign, User, Album
 from .render import render_sign, render_album
 from .db_handler import get_group_rank, get_collected_stamps
 from .utils import (
-    image_to_base64,
     img_list,
     todo_list,
     get_hitokoto,
     get_message_id,
+    image_to_base64,
     get_background_image,
 )
 
