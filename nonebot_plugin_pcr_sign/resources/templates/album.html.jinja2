@@ -14,11 +14,11 @@
     {% for stamp in stamp_list %}
         {% if stamp.stem|int in collected_list %}
           <div class="w-28 h-28 m-2 overflow-hidden">
-            <img src="{{ image_cache[stamp.stem] }}" alt="{{ stamp.stem }}" class="w-full h-full object-cover mix-blend-multiply">
+            <img src="{{ image_cache[stamp.stem].as_uri() }}" alt="{{ stamp.stem }}" class="w-full h-full object-cover mix-blend-multiply">
           </div>
         {% else %}
           <div class="w-28 h-28 m-2 overflow-hidden">
-            <img src="{{ image_cache[stamp.stem] }}" alt="{{ stamp.stem }}" class="w-full h-full mix-blend-multiply filter grayscale opacity-85">
+            <img src="{{ image_cache[stamp.stem].as_uri() }}" alt="{{ stamp.stem }}" class="w-full h-full mix-blend-multiply filter grayscale opacity-85">
           </div>
         {% endif %}
     {% endfor %}

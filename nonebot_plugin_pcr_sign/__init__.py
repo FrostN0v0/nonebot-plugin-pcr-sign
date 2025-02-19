@@ -1,7 +1,7 @@
 import random
 from datetime import date
 
-from nonebot import require
+from nonebot import logger, require
 from nonebot.plugin import PluginMetadata, inherit_supported_adapters
 
 require("nonebot_plugin_uninfo")
@@ -29,6 +29,7 @@ from .db_handler import get_group_rank, get_collected_stamps
 from .utils import (
     img_list,
     todo_list,
+    image_cache,
     get_hitokoto,
     get_message_id,
     image_to_base64,
@@ -40,9 +41,7 @@ __plugin_meta__ = PluginMetadata(
     description=(
         "对“从 hoshino 搬来的 pcr 签到”插件 nonebot-plugin-sign 的搬运重制（我搬两遍"
     ),
-    usage=(
-        "发送 sign/签到/盖章/妈 进行签到\n" "发送 收集册/排行榜/图鉴 显示自己的收集册"
-    ),
+    usage=("发送 sign/签到/盖章/妈 进行签到\n发送 收集册/排行榜/图鉴 显示自己的收集册"),
     type="application",
     homepage="https://github.com/FrostN0v0/nonebot-plugin-pcr-sign",
     supported_adapters=inherit_supported_adapters(
@@ -89,11 +88,10 @@ async def _(user_session: Uninfo, session: async_scoped_session):
     user_name = user_session.user.name if user_session.user.name is not None else "None"
     user_id = user_session.user.id
     group_id = user_session.scene.id
-    # user_avatar = user_session.user.avatar
     todo = random.choice(todo_list)
     affection = random.randint(1, 10)
     stamp_id = random.choice(img_list).stem
-    stamp_img = image_to_base64(img_list[int(stamp_id)])
+    stamp_img = image_to_base64(image_cache[stamp_id])
     background_image = await get_background_image()
     hitokoto = await get_hitokoto()
     is_new: bool = False
@@ -156,6 +154,10 @@ async def _(user_session: Uninfo, session: async_scoped_session):
                 command="raw",
                 expire_time=config.sign_argot_expire_time,
             )
+            logger.debug(
+                f"群{group_id} | {user_name}({user_id})签到成功,"
+                f"印章ID:{stamp_id}, 新获得：{is_new}"
+            )
             await sign.finish()
     else:
         session.add(
@@ -203,6 +205,10 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             content=raw_msg,
             command="raw",
             expire_time=config.sign_argot_expire_time,
+        )
+        logger.debug(
+            f"群{group_id} | {user_name}({user_id})签到成功,"
+            f"印章ID:{stamp_id}, 新获得：{is_new}"
         )
         await sign.finish()
 
