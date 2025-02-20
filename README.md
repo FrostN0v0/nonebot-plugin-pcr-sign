@@ -42,6 +42,9 @@ _✨ pcr签到 集印章/邮戳 ✨_
 
 ## 💿 安装
 
+> [!TIP]
+> 想要启用 CLI 数据迁移功能，需安装 `nonebot-plugin-pcr-sign[cli]`
+
 <details open>
 <summary>使用 nb-cli 安装</summary>
 在 nonebot2 项目的根目录下打开命令行, 输入以下指令即可安装
