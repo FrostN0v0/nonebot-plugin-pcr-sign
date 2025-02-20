@@ -170,6 +170,35 @@ sign_background_source = '{"uri": "/imgs/image.jpg"}'
 
 ![示例图2](docs/example-2.png)
 
+## 🚚 迁移
+
+如果有从nonebot-plugin-hoshino-sign迁移数据到本插件的需求
+
+请使用 `pip install nonebot-plugin-pcr-sign[cli]` 安装所需依赖
+
+~~或`uv add nonebot-plugin-pcr-sign[cli]`什么的，总之加上`[cli]`，别那么死板~~
+
+`nonebot-plugin-hoshino-sign` 的默认数据目录为 `"./data/nonebot_plugin_hoshino_sign/"`
+
+目录结构如下：
+
+- 数据根目录
+  - json
+    - goodwill.json
+  - db
+    - pcr_stamp.db
+
+运行 `nb pcr migrate` 进行迁移,默认会指向该路径寻找旧数据文件
+
+如果旧数据在其他路径保存，可以使用 `nb pcr migrate -d <path>` 指定数据文件根路径
+
+例如：`nb pcr migrate -d ./data/sign/`
+
+> [!TIP]
+> 运行一次成功就好了哦! ~~重复执行迁移会导致用户好感度再被加一次的（~~
+>
+> 旧数据的用户好感度会累加到已有数据中
+
 ## 💖 鸣谢
 
 - [`KomoriDev`](https://github.com/KomoriDev): 优秀的界面风格和设计理念学习
@@ -183,5 +212,5 @@ sign_background_source = '{"uri": "/imgs/image.jpg"}'
 
 ## 📋 TODO
 
-- [ ] 数据迁移脚本(从原hoshino_sign插件迁移数据)
+- [x] 数据迁移脚本(从原hoshino_sign插件迁移数据)
 - [ ] 待补充,欢迎pr
