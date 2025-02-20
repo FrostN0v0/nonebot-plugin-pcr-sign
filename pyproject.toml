@@ -3,6 +3,9 @@ name = "nonebot-plugin-pcr-sign"
 version = "0.3.0"
 description = "nonebot_plugin_hoshino_sign 的重置版"
 readme = "README.md"
+authors = [
+    { name = "FrostN0v0 ", email = "1614591760@qq.com" },
+]
 requires-python = ">=3.10"
 dependencies = [
     "httpx>=0.27.2",
@@ -12,11 +15,16 @@ dependencies = [
     "nonebot-plugin-localstore>=0.7.2",
     "nonebot-plugin-orm>=0.7.6",
     "nonebot-plugin-uninfo>=0.4.1",
-    "nonebot2>=2.4.0",
+    "nonebot2>=2.4.1",
+    "pydantic>=2.10.2",
 ]
 
 [project.entry-points.nb_scripts]
 pcr = "nonebot_plugin_pcr_sign.cli.__main__:main"
+
+[project.urls]
+homepage = "https://github.com/FrostN0v0/nonebot-plugin-pcr-sign"
+repository = "https://github.com/FrostN0v0/nonebot-plugin-pcr-sign"
 
 [build-system]
 requires = ["pdm-backend"]
