@@ -39,7 +39,8 @@ from .utils import (
 __plugin_meta__ = PluginMetadata(
     name="PCR签到重制版",
     description=(
-        "对“从 hoshino 搬来的 pcr 签到”插件 nonebot-plugin-sign 的搬运重制（我搬两遍"
+        "对“从 hoshino 搬来的 pcr 签到”插件"
+        "nonebot_plugin_hoshino_sign 的搬运重制（我搬两遍"
     ),
     usage=("发送 sign/签到/盖章/妈 进行签到\n发送 收集册/排行榜/图鉴 显示自己的收集册"),
     type="application",

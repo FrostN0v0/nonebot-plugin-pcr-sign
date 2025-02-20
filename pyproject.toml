@@ -15,6 +15,9 @@ dependencies = [
     "nonebot2>=2.4.0",
 ]
 
+[project.entry-points.nb_scripts]
+pcr = "nonebot_plugin_pcr_sign.cli.__main__:main"
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
@@ -27,6 +30,10 @@ adapters = [
 test = [
     "nonebot2[fastapi,httpx]>=2.4.0",
     "nonebot-plugin-orm[default]>=0.7.6",
+]
+cli = [
+    "aiosqlite>=0.20.0",
+    "cli-lite>=0.10.2",
 ]
 
 [tool.nonebot]
