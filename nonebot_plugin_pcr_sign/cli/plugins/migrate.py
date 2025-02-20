@@ -42,8 +42,8 @@ class Migrate(BasePlugin):
         base_path = result.db_path
         if not base_path.endswith("/"):
             base_path += "/"
-        json_path = base_path + "goodwill.json"
-        db_path = Path(base_path + "pcr_stamp.db")
+        json_path = base_path + "json/goodwill.json"
+        db_path = Path(base_path + "db/pcr_stamp.db")
 
         new_user_count = 0
         updated_user_count = 0
