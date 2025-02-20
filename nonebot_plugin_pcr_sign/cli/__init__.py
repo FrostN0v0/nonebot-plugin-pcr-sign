@@ -11,7 +11,7 @@ from .plugins.migrate import Migrate
 set_default_argv_type(Argv)
 pcr = CommandLine(
     "NB CLI plugin for nonebot-plugin-pcr-sign",
-    "0.2.0",
+    "0.3.0",
     rich=True,
     _name="nb pcr",
     load_preset=True,

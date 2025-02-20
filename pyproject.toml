@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-pcr-sign"
-version = "0.2.0"
+version = "0.3.0"
 description = "nonebot_plugin_hoshino_sign 的重置版"
 readme = "README.md"
 requires-python = ">=3.10"

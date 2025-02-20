@@ -34,7 +34,7 @@ class Migrate(BasePlugin):
 
     def meta(self) -> PluginMetadata:
         return PluginMetadata(
-            "Migrate", "0.0.1", "pcr 迁移相关指令", ["migrate"], ["FrostN0v0"]
+            "Migrate", "0.3.0", "pcr 迁移相关指令", ["migrate"], ["FrostN0v0"]
         )
 
     def dispatch(self, result: Arparma) -> bool | None:
