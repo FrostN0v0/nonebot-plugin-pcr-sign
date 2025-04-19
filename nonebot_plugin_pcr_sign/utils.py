@@ -1,18 +1,7 @@
-import base64
-from pathlib import Path
-
 import httpx
 from pydantic import AnyUrl as Url
 
 from .config import RES_DIR, SIGN_BG_DIR, ALBUM_BG_DIR, CustomSource, config
-
-
-def image_to_base64(image_path: Path) -> str:
-    with open(image_path, "rb") as image_file:
-        base64_encoded_data = base64.b64encode(image_file.read())
-        base64_message = base64_encoded_data.decode("utf-8")
-    return "data:image/png;base64," + base64_message
-
 
 image_cache = {}
 img_list = list(config.stamp_path.iterdir())
@@ -104,18 +93,18 @@ async def get_album_background() -> str | Url:
 
     match config.album_background_source:
         case "default":
-            background_image = image_to_base64(default_background)
+            background_image = default_background.as_posix()
         case "kraft":
-            background_image = image_to_base64(kraft_background)
+            background_image = kraft_background.as_posix()
         case "pcr":
-            background_image = image_to_base64(pcr_background)
+            background_image = pcr_background.as_posix()
         case "prev":
-            background_image = image_to_base64(prev_background)
+            background_image = prev_background.as_posix()
         case "random":
             background_image = CustomSource(uri=ALBUM_BG_DIR).to_uri()
         case CustomSource() as cs:
             background_image = cs.to_uri()
         case _:
-            background_image = image_to_base64(default_background)
+            background_image = default_background.as_posix()
 
     return background_image
