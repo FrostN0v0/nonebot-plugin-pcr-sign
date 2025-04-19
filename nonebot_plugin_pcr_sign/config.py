@@ -1,10 +1,11 @@
 import random
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 from nonebot import logger
 from pydantic import BaseModel
 from pydantic import AnyUrl as Url
+from nonebot.compat import PYDANTIC_V2
 from nonebot.plugin import get_plugin_config
 import nonebot_plugin_localstore as localstore
 
@@ -17,7 +18,7 @@ SIGN_BG_DIR: Path = RES_DIR / "images" / "sign_background"
 class CustomSource(BaseModel):
     uri: Url | Path
 
-    def to_uri(self) -> Url:
+    def to_uri(self) -> Any:
         if isinstance(self.uri, Path):
             uri = self.uri
             if not uri.is_absolute():
@@ -29,12 +30,17 @@ class CustomSource(BaseModel):
                 logger.debug(
                     f"CustomSource: {uri} is a directory, random pick a file: {files}"
                 )
-                return Url((uri / random.choice(files)).as_posix())
+                if PYDANTIC_V2:
+                    return Url((uri / random.choice(files)).as_posix())
+                else:
+                    return Url((uri / random.choice(files)).as_posix(), scheme="file")  # type: ignore
 
             if not uri.exists():
                 raise FileNotFoundError(f"CustomSource: {uri} not exists")
-
-            return Url(uri.as_posix())
+            if PYDANTIC_V2:
+                return Url(uri.as_posix())
+            else:
+                return Url(uri.as_posix(), scheme="file")  # type: ignore
 
         return self.uri
 

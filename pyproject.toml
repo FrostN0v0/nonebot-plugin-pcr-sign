@@ -16,7 +16,6 @@ dependencies = [
     "nonebot-plugin-orm>=0.7.6",
     "nonebot-plugin-uninfo>=0.4.1",
     "nonebot2>=2.4.1",
-    "pydantic>=2.10.2",
 ]
 
 [project.entry-points.nb_scripts]
