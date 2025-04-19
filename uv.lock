@@ -739,7 +739,7 @@ default = [
 
 [[package]]
 name = "nonebot-plugin-pcr-sign"
-version = "0.3.0"
+version = "0.3.1"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
@@ -750,7 +750,6 @@ dependencies = [
     { name = "nonebot-plugin-orm" },
     { name = "nonebot-plugin-uninfo" },
     { name = "nonebot2" },
-    { name = "pydantic" },
 ]
 
 [package.optional-dependencies]
@@ -783,7 +782,6 @@ requires-dist = [
     { name = "nonebot-plugin-uninfo", specifier = ">=0.4.1" },
     { name = "nonebot2", specifier = ">=2.4.1" },
     { name = "nonebot2", extras = ["fastapi", "httpx"], marker = "extra == 'test'", specifier = ">=2.4.0" },
-    { name = "pydantic", specifier = ">=2.10.2" },
 ]
 provides-extras = ["adapters", "test", "cli"]
 
