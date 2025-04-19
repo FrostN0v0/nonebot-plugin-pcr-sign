@@ -10,9 +10,9 @@ require("nonebot_plugin_argot")
 require("nonebot_plugin_orm")
 require("nonebot_plugin_htmlrender")
 from nonebot_plugin_uninfo import Uninfo
-from nonebot_plugin_argot import add_argot
 from nonebot_plugin_alconna.uniseg import At
 from nonebot_plugin_orm import async_scoped_session
+from nonebot_plugin_argot import Text, Argot, Image, ArgotExtension
 from nonebot_plugin_alconna import (
     Args,
     Match,
@@ -31,8 +31,6 @@ from .utils import (
     todo_list,
     image_cache,
     get_hitokoto,
-    get_message_id,
-    image_to_base64,
     get_background_image,
 )
 
@@ -66,6 +64,7 @@ sign = on_alconna(
     block=True,
     use_cmd_start=True,
     aliases=("盖章", "签到", "妈!"),
+    extensions=[ArgotExtension],
 )
 
 stamp_album = on_alconna(
@@ -92,8 +91,12 @@ async def _(user_session: Uninfo, session: async_scoped_session):
     todo = random.choice(todo_list)
     affection = random.randint(1, 10)
     stamp_id = random.choice(img_list).stem
-    stamp_img = image_to_base64(image_cache[stamp_id])
+    stamp_img = image_cache[stamp_id]
     background_image = await get_background_image()
+    if str(background_image).startswith("http"):
+        argot_seg = [Text(str(background_image)), Image(url=str(background_image))]
+    else:
+        argot_seg = Image(path=str(background_image))
     hitokoto = await get_hitokoto()
     is_new: bool = False
     if user := await session.get(User, (group_id, user_id)):
@@ -131,35 +134,32 @@ async def _(user_session: Uninfo, session: async_scoped_session):
             )
             await session.commit()
             image = await render_sign(result)
-            msg = await UniMessage.image(raw=image).send(
-                at_sender=True,
-                argot={
-                    "name": "background",
-                    "command": "background",
-                    "content": str(background_image),
-                    "expire": config.sign_argot_expire_time,
-                },
-            )
-            msg_id = await get_message_id(msg.msg_ids)
-            await add_argot(
-                name="stamp",
-                message_id=str(msg_id),
-                content=str(stamp_img),
-                command="stamp",
-                expire_time=config.sign_argot_expire_time,
-            )
-            await add_argot(
-                name="raw",
-                message_id=str(msg_id),
-                content=raw_msg,
-                command="raw",
-                expire_time=config.sign_argot_expire_time,
+            msg = (
+                UniMessage.image(raw=image)
+                + Argot(
+                    name="background",
+                    command="background",
+                    segment=argot_seg,
+                    expired_at=config.sign_argot_expire_time,
+                )
+                + Argot(
+                    name="stamp",
+                    command="stamp",
+                    segment=Image(path=stamp_img),
+                    expired_at=config.sign_argot_expire_time,
+                )
+                + Argot(
+                    name="raw",
+                    command="raw",
+                    segment=Text(raw_msg),
+                    expired_at=config.sign_argot_expire_time,
+                )
             )
             logger.debug(
                 f"群{group_id} | {user_name}({user_id})签到成功,"
                 f"印章ID:{stamp_id}, 新获得：{is_new}"
             )
-            await sign.finish()
+            await msg.finish(reply_to=True)
     else:
         session.add(
             User(gid=group_id, uid=user_id, affection=affection, last_sign=date.today())
@@ -183,35 +183,32 @@ async def _(user_session: Uninfo, session: async_scoped_session):
         session.add(Album(gid=group_id, stamp_id=stamp_id, uid=user_id, collected=True))
         image = await render_sign(result)
         await session.commit()
-        msg = await UniMessage.image(raw=image).send(
-            at_sender=True,
-            argot={
-                "name": "background",
-                "command": "background",
-                "content": str(background_image),
-                "expire": config.sign_argot_expire_time,
-            },
-        )
-        msg_id = await get_message_id(msg.msg_ids)
-        await add_argot(
-            name="stamp",
-            message_id=str(msg_id),
-            content=str(stamp_img),
-            command="stamp",
-            expire_time=config.sign_argot_expire_time,
-        )
-        await add_argot(
-            name="raw",
-            message_id=str(msg_id),
-            content=raw_msg,
-            command="raw",
-            expire_time=config.sign_argot_expire_time,
+        msg = (
+            UniMessage.image(raw=image)
+            + Argot(
+                name="background",
+                command="background",
+                segment=argot_seg,
+                expired_at=config.sign_argot_expire_time,
+            )
+            + Argot(
+                name="stamp",
+                command="stamp",
+                segment=Image(str(stamp_img)),
+                expired_at=config.sign_argot_expire_time,
+            )
+            + Argot(
+                name="raw",
+                command="raw",
+                segment=Text(raw_msg),
+                expired_at=config.sign_argot_expire_time,
+            )
         )
         logger.debug(
             f"群{group_id} | {user_name}({user_id})签到成功,"
             f"印章ID:{stamp_id}, 新获得：{is_new}"
         )
-        await sign.finish()
+        await msg.finish(reply_to=True)
 
 
 @stamp_album.handle()

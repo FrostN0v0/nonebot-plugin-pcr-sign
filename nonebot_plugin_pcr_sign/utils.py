@@ -1,5 +1,4 @@
 import base64
-from typing import Any
 from pathlib import Path
 
 import httpx
@@ -54,15 +53,6 @@ todo_list = [
 ]
 
 
-async def get_message_id(msg_ids: list[Any]):
-    if isinstance(msg_ids[0], dict):
-        return msg_ids[0].get("message_id")
-    elif hasattr(msg_ids[0], "message_id"):
-        return msg_ids[0].message_id
-    else:
-        return ""
-
-
 async def get_lolicon_image() -> str:
     async with httpx.AsyncClient() as client:
         response = await client.get("https://api.lolicon.app/setu/v2")
@@ -91,7 +81,7 @@ async def get_background_image() -> str | Url:
 
     match config.sign_background_source:
         case "default":
-            background_image = image_to_base64(default_background)
+            background_image = default_background.as_posix()
         case "LoliAPI":
             background_image = await get_loliapi_image()
         case "Lolicon":
@@ -101,7 +91,7 @@ async def get_background_image() -> str | Url:
         case CustomSource() as cs:
             background_image = cs.to_uri()
         case _:
-            background_image = image_to_base64(default_background)
+            background_image = default_background.as_posix()
 
     return background_image
 
