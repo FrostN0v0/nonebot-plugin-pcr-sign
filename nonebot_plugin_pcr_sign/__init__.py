@@ -48,7 +48,7 @@ __plugin_meta__ = PluginMetadata(
     ),
     extra={
         "author": "FrostN0v0 <1614591760@qq.com>",
-        "version": "0.3.1",
+        "version": "0.3.2",
     },
 )
 

@@ -1,6 +1,6 @@
 [project]
 name = "nonebot-plugin-pcr-sign"
-version = "0.3.1"
+version = "0.3.2"
 description = "nonebot_plugin_hoshino_sign 的重置版"
 readme = "README.md"
 authors = [
