@@ -58,6 +58,8 @@ class Config(BaseModel):
         Literal["default", "kraft", "pcr", "prev", "random"] | CustomSource
     ) = "default"
     """ 收集册背景图片来源 """
+    sign_proxy: str | None = None
+    """ 签到相关网络请求代理 """
 
 
 config = get_plugin_config(Config)
