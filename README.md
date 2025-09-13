@@ -8,7 +8,7 @@
 
 # nonebot-plugin-pcr-sign
 
-_✨ pcr签到 集印章/邮戳 ✨_
+_✨ pcr 签到 集印章/邮戳 ✨_
 
 <a href="./LICENSE">
     <img src="https://img.shields.io/github/license/FrostN0v0/nonebot-plugin-pcr-sign.svg" alt="license">
@@ -31,7 +31,20 @@ _✨ pcr签到 集印章/邮戳 ✨_
 </a>
 <a href="https://www.codefactor.io/repository/github/frostn0v0/nonebot-plugin-pcr-sign"><img src="https://www.codefactor.io/repository/github/frostn0v0/nonebot-plugin-pcr-sign/badge" alt="CodeFactor" />
 </a>
+</a>
 
+<br />
+<a href="#-效果图">
+  <strong>📸 演示与预览</strong>
+</a>
+&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="#-安装">
+  <strong>📦️ 下载插件</strong>
+</a>
+&nbsp;&nbsp;|&nbsp;&nbsp;
+<a href="https://qm.qq.com/q/bAXUZu1BdK" target="__blank">
+  <strong>💬 加入交流群</strong>
+</a>
 </div>
 
 ## 📖 介绍
@@ -61,21 +74,31 @@ _✨ pcr签到 集印章/邮戳 ✨_
 <summary>pip</summary>
 
     pip install nonebot-plugin-pcr-sign
+
+</details>
+<details>
+<summary>uv</summary>
+
+    uv add nonebot-plugin-pcr-sign
+
 </details>
 <details>
 <summary>pdm</summary>
 
     pdm add nonebot-plugin-pcr-sign
+
 </details>
 <details>
 <summary>poetry</summary>
 
     poetry add nonebot-plugin-pcr-sign
+
 </details>
 <details>
 <summary>conda</summary>
 
     conda install nonebot-plugin-pcr-sign
+
 </details>
 
 打开 nonebot2 项目根目录下的 `pyproject.toml` 文件, 在 `[tool.nonebot]` 部分追加写入
@@ -90,16 +113,17 @@ _✨ pcr签到 集印章/邮戳 ✨_
 
 在 nonebot2 项目的`.env`文件中修改配置项
 
-| 配置项 | 必填 | 默认值 | 说明 |
-|:-----:|:----:|:----:|:----:|
-| sign_argot_expire_time | 否 | 300 | 暗语过期时间（单位：`秒` 类型：`int`） |
-| stamp_path | 否 | RES_DIR / "stamps" | 印章图片路径 |
-| sign_background_source | 否 | "default" | 签到背景图来源 |
-| album_background_source | 否 | "default" | 收集册背景图来源 |
+|         配置项          | 必填 |       默认值       |                  说明                  |
+| :---------------------: | :--: | :----------------: | :------------------------------------: |
+| sign_argot_expire_time  |  否  |        300         | 暗语过期时间（单位：`秒` 类型：`int`） |
+|       stamp_path        |  否  | RES_DIR / "stamps" |              印章图片路径              |
+| sign_background_source  |  否  |     "default"      |             签到背景图来源             |
+| album_background_source |  否  |     "default"      |            收集册背景图来源            |
+|       sign_proxy        |  否  |         无         |            相关网络请求代理            |
 
 ### background_source
 
-`sign_background_source` 为签到背景图来源，可选值为字面量 `default` / `LoliAPI` / `Lolicon` / `random` 或者结构 `CustomSource` 。`LoliAPI` 和  `Lolicon` 均为网络请求获取随机背景图，`random`为从[默认签到背景目录](/nonebot_plugin_pcr_sign/resources/images/sign_background/)中随机, `CustomSource` 用于自定义背景图。 默认为 `default`。
+`sign_background_source` 为签到背景图来源，可选值为字面量 `default` / `LoliAPI` / `Lolicon` / `random` 或者结构 `CustomSource` 。`LoliAPI` 和 `Lolicon` 均为网络请求获取随机背景图，`random`为从[默认签到背景目录](/nonebot_plugin_pcr_sign/resources/images/sign_background/)中随机, `CustomSource` 用于自定义背景图。 默认为 `default`。
 
 `album_background_source` 为收集册背景图来源，可选值为字面量 `default` / `kraft` / `pcr` / `prev` / `random` 或者结构 `CustomSource` 。前四者均为预设背景，`random`为从[默认收集册背景目录](/nonebot_plugin_pcr_sign/resources/images/album_background/)中随机，`CustomSource` 用于自定义背景图。 默认为 `default`。
 
@@ -140,10 +164,10 @@ sign_background_source = '{"uri": "/imgs/image.jpg"}'
 
 ### 🪧 指令表
 
-| 指令 | 权限 | 参数 | 说明 |
-|:-----:|:----:|:----:|:----:|
-| sign/签到/盖章/妈 | 所有 | 无 | 签到 |
-| album/收集册 | 所有 | `无` or `@` | 查看自己（或别人）的收集册 |
+|       指令        | 权限 |    参数     |            说明            |
+| :---------------: | :--: | :---------: | :------------------------: |
+| sign/签到/盖章/妈 | 所有 |     无      |            签到            |
+|   album/收集册    | 所有 | `无` or `@` | 查看自己（或别人）的收集册 |
 
 ### 🫣 暗语表
 
@@ -154,11 +178,11 @@ sign_background_source = '{"uri": "/imgs/image.jpg"}'
 >
 > 对暗语对象`回复对应的暗语指令`即可获取暗语消息
 
-| 暗语指令 | 对象 | 说明 |
-|:-----:|:----:|:----:|
-| `background` | [`签到图`](#-签到图) | 查看背景图 |
-| `stamp` | [`签到图`](#-签到图) | 获取印章图 |
-| `raw` | [`签到图`](#-签到图) | 获取原文字消息 |
+|   暗语指令   |         对象         |      说明      |
+| :----------: | :------------------: | :------------: |
+| `background` | [`签到图`](#-签到图) |   查看背景图   |
+|   `stamp`    | [`签到图`](#-签到图) |   获取印章图   |
+|    `raw`     | [`签到图`](#-签到图) | 获取原文字消息 |
 
 > [!TIP]
 > 注意暗语消息有过期时间，默认 5min 后失效，可通过[配置](#配置表)修改
@@ -175,7 +199,7 @@ sign_background_source = '{"uri": "/imgs/image.jpg"}'
 
 ## 🚚 迁移
 
-如果有从nonebot-plugin-hoshino-sign迁移数据到本插件的需求
+如果有从 nonebot-plugin-hoshino-sign 迁移数据到本插件的需求
 
 请使用 `pip install nonebot-plugin-pcr-sign[cli]` 安装所需依赖
 
@@ -215,5 +239,5 @@ sign_background_source = '{"uri": "/imgs/image.jpg"}'
 
 ## 📋 TODO
 
-- [x] 数据迁移脚本(从原hoshino_sign插件迁移数据)
-- [ ] 待补充,欢迎pr
+- [x] 数据迁移脚本(从原 hoshino_sign 插件迁移数据)
+- [ ] 待补充,欢迎 pr
