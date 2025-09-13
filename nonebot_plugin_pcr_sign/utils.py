@@ -1,5 +1,6 @@
 import httpx
 from pydantic import AnyUrl as Url
+from nonebot import logger
 
 from .config import RES_DIR, SIGN_BG_DIR, ALBUM_BG_DIR, CustomSource, config
 
@@ -43,26 +44,33 @@ todo_list = [
 
 
 async def get_lolicon_image() -> str:
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(proxy=config.sign_proxy) as client:
         response = await client.get("https://api.lolicon.app/setu/v2")
     return response.json()["data"][0]["urls"]["original"]
 
 
 async def get_loliapi_image() -> str:
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(proxy=config.sign_proxy) as client:
         response = await client.get("https://api.loliapi.com/acg/pe/?type=url")
     return response.text
 
 
 async def get_hitokoto() -> str:
-    async with httpx.AsyncClient() as client:
-        response = await client.get("https://v1.hitokoto.cn/?c=f&encode=text")
-        status_code = response.status_code
-        if status_code == 200:
-            hitokoto = response.text
-        else:
-            hitokoto = f"请求错误: {status_code}"
-    return hitokoto
+    hitokoto_urls = [
+        "https://v1.hitokoto.cn/?c=f&encode=text",
+        "https://uapis.cn/api/say",
+    ]
+    async with httpx.AsyncClient(proxy=config.sign_proxy) as client:
+        for url in hitokoto_urls:
+            try:
+                response = await client.get(url, timeout=5)
+                if response.status_code == 200:
+                    logger.debug(f"使用接口 {url} 获取成功，一言：{response.text}")
+                    return response.text
+            except httpx.RequestError:
+                logger.warning(f"使用接口 {url} 获取一言失败")
+                continue
+    return ""
 
 
 async def get_background_image() -> str | Url:
