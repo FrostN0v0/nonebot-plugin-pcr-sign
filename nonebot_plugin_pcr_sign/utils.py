@@ -1,6 +1,6 @@
 import httpx
-from pydantic import AnyUrl as Url
 from nonebot import logger
+from pydantic import AnyUrl as Url
 
 from .config import RES_DIR, SIGN_BG_DIR, ALBUM_BG_DIR, CustomSource, config
 
