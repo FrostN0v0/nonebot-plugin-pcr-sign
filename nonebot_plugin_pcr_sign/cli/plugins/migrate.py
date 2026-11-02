@@ -7,7 +7,6 @@ import aiosqlite
 from nonebot.log import logger
 from clilte import BasePlugin, PluginMetadata
 from arclet.alconna.tools import RichConsoleFormatter
-from nonebot_plugin_orm import get_scoped_session, async_scoped_session
 from arclet.alconna import (
     Args,
     Option,
@@ -15,6 +14,7 @@ from arclet.alconna import (
     Arparma,
     CommandMeta,
 )
+from nonebot_plugin_orm import get_scoped_session, async_scoped_session
 
 from ...models import User, Album
 
